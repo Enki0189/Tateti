@@ -11,14 +11,14 @@ public class JugadorMaquina extends Jugador {
     }
 
     @Override
-    public void jugar(Tateti tateti) {
+    public void jugar(TableroTateti tableroTateti) {
         System.out.println("Jugada de la computadora:");
         System.out.println();
         boolean posicionJugada = true;
         do {
             int filaJugador = generadorNumeros.nextInt(3);
             int columnaJugada = generadorNumeros.nextInt(3);
-            posicionJugada = tateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
+            posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
         }
         while(posicionJugada == false);
     }

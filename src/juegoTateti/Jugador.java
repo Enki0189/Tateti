@@ -8,7 +8,7 @@ public abstract class Jugador {
         this.ficha = ficha;
     }
 
-    public abstract void jugar(Tateti tateti);
+    public abstract void jugar(TableroTateti tableroTateti);
 
     public char getFicha() {
         return this.ficha;

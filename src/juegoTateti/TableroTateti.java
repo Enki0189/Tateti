@@ -1,13 +1,13 @@
 package juegoTateti;
 
-public class Tateti {
+public class TableroTateti {
 
-    private static final int PERIMETRO_TATETI = 3;
+    private static final int POSICION_MAXIMA_TATETI = 3;
     private char tablero [][];
 
     private char ultimaFichaJugada = ' ';
 
-    public Tateti() {
+    public TableroTateti() {
         tablero = new char [][]{{'-','-','-'},{'-','-','-'},{'-','-','-'}};
     }
 
@@ -34,7 +34,7 @@ public class Tateti {
 
 
     private boolean posicionOcupada(Posicion posicion) {
-        if (posicion.getFila() >= PERIMETRO_TATETI || posicion.getColumna() >= PERIMETRO_TATETI ||
+        if (posicion.getFila() >= POSICION_MAXIMA_TATETI || posicion.getColumna() >= POSICION_MAXIMA_TATETI ||
                 this.tablero [posicion.getFila()][posicion.getColumna()] != '-') {
             return true;
         }
@@ -65,7 +65,7 @@ public class Tateti {
     }
 
     private boolean verificarGanadorEnColumnas() {
-        for(int columna = 0; columna < PERIMETRO_TATETI; columna++) {
+        for(int columna = 0; columna < POSICION_MAXIMA_TATETI; columna++) {
             if(tablero[0][columna] == ultimaFichaJugada &&
                     tablero[1][columna] == ultimaFichaJugada &&
                     tablero[2][columna] == ultimaFichaJugada) {
@@ -76,7 +76,7 @@ public class Tateti {
     }
 
     private boolean verificarGanadorEnFilas() {
-        for(int fila = 0; fila < PERIMETRO_TATETI; fila++) {
+        for(int fila = 0; fila < POSICION_MAXIMA_TATETI; fila++) {
             if(tablero[fila][0] == ultimaFichaJugada &&
                     tablero[fila][1] == ultimaFichaJugada &&
                     tablero[fila][2] == ultimaFichaJugada) {
