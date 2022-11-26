@@ -1,5 +1,8 @@
 package juegoTateti;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public abstract class Jugador {
     private char ficha;
 
@@ -8,7 +11,7 @@ public abstract class Jugador {
         this.ficha = ficha;
     }
 
-    public abstract void jugar(TableroTateti tableroTateti);
+    public abstract void jugar(TableroTateti tableroTateti, Connection miConexion, int codigoLenguajeSeleccionado) throws SQLException ;
 
     public char getFicha() {
         return this.ficha;

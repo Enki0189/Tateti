@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "******";
+    public static final String PASSWORD_DB = "6277Horde";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -209,9 +209,9 @@ public class JuegoTateti {
             tableroTateti.mostrarTablero();
             System.out.println();
             if (i % 2 == 0) {
-                jugadorPersona.jugar(tableroTateti);
+                jugadorPersona.jugar(tableroTateti, miConexion, codigoLenguajeSeleccionado);
             } else {
-                jugadorComputadora.jugar(tableroTateti);
+                jugadorComputadora.jugar(tableroTateti, miConexion, codigoLenguajeSeleccionado);
             }
         }
 

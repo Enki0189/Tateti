@@ -1,5 +1,9 @@
 package juegoTateti;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class JugadorPersona extends Jugador {
@@ -13,18 +17,24 @@ public class JugadorPersona extends Jugador {
     }
 
     @Override
-    public void jugar(TableroTateti tableroTateti) {
-        System.out.println("Turno de " + nombre);
+    public void jugar(TableroTateti tableroTateti, Connection miConexion, int codigoLenguajeSeleccionado) throws SQLException {
+    	Statement statement = miConexion.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+    	ResultSet resultSetMensajes = statement.executeQuery("SELECT * FROM mensajes WHERE cod_idioma = " + codigoLenguajeSeleccionado);
+    	resultSetMensajes.absolute(32);
+    	System.out.println(resultSetMensajes.getString("mensaje") + nombre);
         System.out.println();
         boolean posicionJugada = true;
         do {
-            System.out.println("Ingrese fila de la jugada (1 - 3)");
+        	resultSetMensajes.absolute(5);
+        	System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
             int filaJugador = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codigo se cuenta a partir de 0
-            System.out.println("Ingrese columna de la jugada (1 - 3)");
+            resultSetMensajes.absolute(6);
+        	System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
             int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codigo se cuenta a partir de 0
-            posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
+           	posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
             if(!posicionJugada) {
-                System.out.println("La posicion jugada esta ocupada. Ingrese nuevamente en una posicion libre.");
+            	resultSetMensajes.absolute(8);
+            	System.out.println(resultSetMensajes.getString("mensaje"));
             }
         }
         while(posicionJugada == false);

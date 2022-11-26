@@ -23,8 +23,9 @@ public class TableroTateti {
 
     public boolean colocarFicha (Posicion posicion, char ficha) {
         //Si detecta poscion ocupada retorna falso.
-        if(posicionOcupada(posicion))
+        if(posicionOcupada(posicion)) {
             return false;
+        }
 
         //Inserta ficha en tablero y retorna verdadero ya que la fcha pudo ser colocarda
         tablero[posicion.getFila()][posicion.getColumna()] = ficha;
