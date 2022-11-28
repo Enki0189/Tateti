@@ -30,7 +30,7 @@ public class JugadorPersona extends Jugador {
             int filaJugador = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codigo se cuenta a partir de 0
             resultSetMensajes.absolute(6);
         	System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
-            int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codigo se cuenta a partir de 0
+            int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codi go se cuenta a partir de 0
            	posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
             if(!posicionJugada) {
             	resultSetMensajes.absolute(8);

@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "6277Horde";
+    public static final String PASSWORD_DB = "*****";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -44,12 +44,16 @@ public class JuegoTateti {
                         jugar(miConexion);
                         break;
                     case 3:
+                    	//modificar esta función
                         mostrarPartidasJugador(miConexion);
                         break;
                     case 4:
-                        agregarMensajeNuevo(miConexion);
+                    	mostrarPartidasJugador(miConexion); 
                         break;
                     case 5:
+                    	mostrarMensajesDelSistema(miConexion);
+                    	break;
+                    case 6:
                         terminar = true;
                     default:
                         break;
@@ -82,11 +86,20 @@ public class JuegoTateti {
     private static void mostrarMenuPrincipal(Connection miConexion) throws SQLException {
     	ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
         System.out.println();
+        resultSetMensajes.absolute(13);
+        System.out.println("1 - " + resultSetMensajes.getString("mensaje"));
+        resultSetMensajes.absolute(14);
+        System.out.println("2 - " + resultSetMensajes.getString("mensaje"));
+        resultSetMensajes.absolute(15);
+        System.out.println("3 - " + resultSetMensajes.getString("mensaje"));
+        resultSetMensajes.absolute(16);
+        System.out.println("4 - " + resultSetMensajes.getString("mensaje"));
+        //agregar este mensaje a la BD
+        //resultSetMensajes.absolute(33);
+        System.out.println("5 - " + "Ver un mensaje según su código");
+        resultSetMensajes.absolute(17);
+        System.out.println("6 - " + resultSetMensajes.getString("mensaje"));
         
-        for (int i = 13; i <18; i++) {
-        	resultSetMensajes.absolute(i);
-        	System.out.println((i-12)+ " - " + resultSetMensajes.getString("mensaje"));
-        }
 
         System.out.println();
     }
@@ -165,7 +178,7 @@ public class JuegoTateti {
     	System.out.println(resultSetMensajes2.getString("mensaje"));
     }
 
-
+    //borrar toda esta función, creo
     private static void agregarMensajeNuevo(Connection miConexion) throws SQLException {
         System.out.println();
         System.out.print("Ingrese codigo del mensaje: ");
@@ -228,10 +241,11 @@ public class JuegoTateti {
                 System.out.println(resultSetMensajes.getString("mensaje") + " " + nombreJugador);
             } else {
             	resultSetMensajes.absolute(30);
-                System.out.println(resultSetMensajes.getString("mensaje") + "u.u");
+                System.out.println(resultSetMensajes.getString("mensaje") + " u.u");
             }
         } else {
-            System.out.println("Empate");
+        	resultSetMensajes.absolute(12);
+            System.out.println(resultSetMensajes.getString("mensaje"));
             resultadoPartida = 2; // Cambia a 2 si se detecta empate
         }
 
