@@ -19,23 +19,17 @@ public class JugadorPersona extends Jugador {
     @Override
     public void jugar(TableroTateti tableroTateti, Connection miConexion, int codigoLenguajeSeleccionado) throws SQLException {
     	try {
-    		Statement statement = miConexion.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-    		ResultSet resultSetMensajes = statement.executeQuery("SELECT * FROM mensajes WHERE cod_idioma = " + codigoLenguajeSeleccionado);
-    		resultSetMensajes.absolute(32);
-    		System.out.println(resultSetMensajes.getString("mensaje") + nombre);
+    		System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 32) + " " + nombre);
     		System.out.println();
     		boolean posicionJugada = true;
     		do {
-    			resultSetMensajes.absolute(5);
-    			System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
+    			System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 5) +" (1 - 3):");
     			int filaJugador = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codigo se cuenta a partir de 0
-    			resultSetMensajes.absolute(6);
-    			System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
+    			System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 6)+" (1 - 3):");
     			int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codi go se cuenta a partir de 0
     			posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
     			if(!posicionJugada) {
-            	resultSetMensajes.absolute(8);
-            	System.out.println(resultSetMensajes.getString("mensaje"));
+    				System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 8));
     			}
     		}
     		while(posicionJugada == false);
