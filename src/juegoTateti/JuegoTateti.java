@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class JuegoTateti {
 
     // Datos conexion base de datos
-    public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti";
+    public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti?serverTimezone=UTC";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "*****";
+    public static final String PASSWORD_DB = "BasePack8";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -45,7 +45,7 @@ public class JuegoTateti {
                         break;
                     case 3:
                     	//modificar esta función
-                        mostrarPartidasJugador(miConexion);
+                        mostrarPartidas(miConexion);
                         break;
                     case 4:
                     	mostrarPartidasJugador(miConexion); 
@@ -55,6 +55,7 @@ public class JuegoTateti {
                     	break;
                     case 6:
                         terminar = true;
+                        break;
                     default:
                         break;
                 }
@@ -65,7 +66,31 @@ public class JuegoTateti {
         }
     }
     
-    private static ResultSet generarMensajes(int codigoLenguajeSeleccionado, Connection miConexion) throws SQLException {
+    private static void mostrarPartidas(Connection miConexion) throws SQLException {
+    	try {
+    		ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
+    		resultSetMensajes.absolute(26);
+    		System.out.println();
+    		System.out.println(resultSetMensajes.getString("mensaje"));
+
+
+    		System.out.println();
+
+    		ResultSet miResultSet = miConexion.createStatement()
+                .executeQuery("SELECT * FROM info_partidas");
+
+    		while (miResultSet.next()) {
+    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
+                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
+                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+
+    		}
+    	} catch (Exception e) {
+    	        	System.out.println("no hay jugadores cargados");
+    	}
+    }
+
+	private static ResultSet generarMensajes(int codigoLenguajeSeleccionado, Connection miConexion) throws SQLException {
     	Statement statement = miConexion.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
     	ResultSet resultSetMensajes = statement.executeQuery("SELECT * FROM mensajes WHERE cod_idioma = " + codigoLenguajeSeleccionado);
     	return resultSetMensajes;
@@ -105,26 +130,31 @@ public class JuegoTateti {
     }
 
     private static void mostrarPartidasJugador(Connection miConexion) throws SQLException {
-    	ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
-    	resultSetMensajes.absolute(26);
-        System.out.println();
-        System.out.println(resultSetMensajes.getString("mensaje"));
+    	try {
+    		ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
+    		resultSetMensajes.absolute(26);
+    		System.out.println();
+    		System.out.println(resultSetMensajes.getString("mensaje"));
 
-        // Por alguna razon el siguiente nextLine el programa lo ignora y tuve que
-        // ponerlo 2 veces
-        lector.nextLine();
-        String nombreDeJugador = lector.nextLine();
+    		// Por alguna razon el siguiente nextLine el programa lo ignora y tuve que
+    		// ponerlo 2 veces
+    		lector.nextLine();
+    		String nombreDeJugador = lector.nextLine();
 
-        System.out.println();
+    		System.out.println();
 
-        ResultSet miResultSet = miConexion.createStatement()
+    		ResultSet miResultSet = miConexion.createStatement()
                 .executeQuery("SELECT * FROM info_partidas WHERE nombre_jugador = '" + nombreDeJugador + "'");
 
-        while (miResultSet.next()) {
-            System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
+    		while (miResultSet.next()) {
+    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
                     + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
                     + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
-        }
+
+    		}
+    	} catch (Exception e) {
+    	        	System.out.println("no se encuentra el jugador");
+    	}
     }
 
     private static void mostrarMensajesDelSistema(Connection miConexion) throws SQLException {
