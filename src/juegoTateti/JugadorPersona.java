@@ -26,7 +26,7 @@ public class JugadorPersona extends Jugador {
                 System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 6)+" (1 - 3):");
                 int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codi go se cuenta a partir de 0
                 if (filaJugador < 0 || filaJugador > 2 || columnaJugada < 0 || columnaJugada > 2) {
-                    System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 8));
+                    System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 7));
                     posicionJugada = false;
                 } else {
                     posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
