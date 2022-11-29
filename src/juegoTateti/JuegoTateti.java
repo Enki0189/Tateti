@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "*****";
+    public static final String PASSWORD_DB = "010420";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -44,7 +44,7 @@ public class JuegoTateti {
                         jugar(miConexion);
                         break;
                     case 3:
-                    	//modificar esta función
+                    	//modificar esta funciï¿½n
                         mostrarPartidasJugador(miConexion);
                         break;
                     case 4:
@@ -96,7 +96,7 @@ public class JuegoTateti {
         System.out.println("4 - " + resultSetMensajes.getString("mensaje"));
         //agregar este mensaje a la BD
         //resultSetMensajes.absolute(33);
-        System.out.println("5 - " + "Ver un mensaje según su código");
+        System.out.println("5 - " + "Ver un mensaje segï¿½n su cï¿½digo");
         resultSetMensajes.absolute(17);
         System.out.println("6 - " + resultSetMensajes.getString("mensaje"));
         
@@ -178,7 +178,7 @@ public class JuegoTateti {
     	System.out.println(resultSetMensajes2.getString("mensaje"));
     }
 
-    //borrar toda esta función, creo
+    //borrar toda esta funciï¿½n, creo
     private static void agregarMensajeNuevo(Connection miConexion) throws SQLException {
         System.out.println();
         System.out.print("Ingrese codigo del mensaje: ");

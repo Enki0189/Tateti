@@ -31,11 +31,19 @@ public class JugadorPersona extends Jugador {
             resultSetMensajes.absolute(6);
         	System.out.println(resultSetMensajes.getString("mensaje")+" (1 - 3):");
             int columnaJugada = Integer.parseInt(lector.nextLine()) - 1; //Se resta 1 ya que en codi go se cuenta a partir de 0
-           	posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
-            if(!posicionJugada) {
-            	resultSetMensajes.absolute(8);
-            	System.out.println(resultSetMensajes.getString("mensaje"));
+
+            if (filaJugador < 0 || filaJugador > 2 || columnaJugada < 0 || columnaJugada > 2) {
+                resultSetMensajes.absolute(7);
+                System.out.println(resultSetMensajes.getString("mensaje"));
+                posicionJugada = false;
+            } else {
+                posicionJugada = tableroTateti.colocarFicha(new Posicion(filaJugador, columnaJugada), this.getFicha());
+                if(!posicionJugada) {
+                    resultSetMensajes.absolute(8);
+                    System.out.println(resultSetMensajes.getString("mensaje"));
+                }
             }
+
         }
         while(posicionJugada == false);
         System.out.println();
