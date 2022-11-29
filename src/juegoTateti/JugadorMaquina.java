@@ -16,10 +16,7 @@ public class JugadorMaquina extends Jugador {
 
 	@Override
     public void jugar(TableroTateti tableroTateti, Connection miConexion, int codigoLenguajeSeleccionado) throws SQLException {
-		Statement statement = miConexion.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-    	ResultSet resultSetMensajes = statement.executeQuery("SELECT * FROM mensajes WHERE cod_idioma = " + codigoLenguajeSeleccionado);
-    	resultSetMensajes.absolute(9);
-    	System.out.println(resultSetMensajes.getString("mensaje"));
+    	System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 9));
         System.out.println();
         boolean posicionJugada = true;
         do {
