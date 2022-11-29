@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti?serverTimezone=UTC";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "6277Horde";
+    public static final String PASSWORD_DB = "*****";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -68,8 +68,11 @@ public class JuegoTateti {
     private static void mostrarPartidas(Connection miConexion) throws SQLException {
     	try {
     		System.out.println(" ");
-    		System.out.println("1 - Ver todas las partidas");
-    		System.out.println("2 - Ver un número específico de partidas");
+    		ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
+    		resultSetMensajes.absolute(34);
+    		System.out.println("1 - " + resultSetMensajes.getString("mensaje"));
+    		resultSetMensajes.absolute(35);
+    		System.out.println("2 - " + resultSetMensajes.getString("mensaje"));
     		int opcion = lector.nextInt();
     		if (opcion == 1) {
 	    		ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas");
@@ -127,9 +130,8 @@ public class JuegoTateti {
         System.out.println("3 - " + resultSetMensajes.getString("mensaje"));
         resultSetMensajes.absolute(16);
         System.out.println("4 - " + resultSetMensajes.getString("mensaje"));
-        //agregar este mensaje a la BD
-        //resultSetMensajes.absolute(33);
-        System.out.println("5 - " + "Ver un mensaje según su código");
+        resultSetMensajes.absolute(33);
+        System.out.println("5 - " + resultSetMensajes.getString("mensaje"));
         resultSetMensajes.absolute(17);
         System.out.println("6 - " + resultSetMensajes.getString("mensaje"));
         
@@ -148,30 +150,38 @@ public class JuegoTateti {
     		// ponerlo 2 veces
     		lector.nextLine();
     		String nombreDeJugador = lector.nextLine();
-
     		System.out.println();
 
     		ResultSet miResultSet = miConexion.createStatement()
                 .executeQuery("SELECT * FROM info_partidas WHERE nombre_jugador = '" + nombreDeJugador + "'");
-
-    		while (miResultSet.next()) {
-    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
-                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
-                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
-
+    		
+    		if (!miResultSet.isBeforeFirst()) {
+    			resultSetMensajes.absolute(38);
+    			System.out.println(resultSetMensajes.getString("mensaje"));
+    		} else {
+    			while (miResultSet.next()) {
+	    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
+	                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
+	                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+	    		}
     		}
     	} catch (Exception e) {
-    	        	System.out.println("No se encuentra el jugador");
+    		ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
+    		resultSetMensajes.absolute(38);
+			System.out.println(resultSetMensajes.getString("mensaje"));
     	}
     }
 
     private static void mostrarMensajesDelSistema(Connection miConexion) throws SQLException {
+    	ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
+		resultSetMensajes.absolute(36);
         System.out.println();
-        System.out.println("Ingrese codigo de idioma en el que desea ver el mensaje:");
+        System.out.println(resultSetMensajes.getString("mensaje"));
         int codigoIdiomaSeleccionado = lector.nextInt();
 
         System.out.println();
-        System.out.println("Ingrese codigo de mensaje:");
+        resultSetMensajes.absolute(37);
+        System.out.println(resultSetMensajes.getString("mensaje"));
         int codigoDeMensaje = lector.nextInt();
         System.out.println();
 
@@ -196,7 +206,7 @@ public class JuegoTateti {
         	resultSetMensajes.absolute(i);
         	System.out.println((i-18)+ " - " + resultSetMensajes.getString("mensaje"));
         }
-        
+        //lo modifiqué para que diga los idiomas en todos los idiomas
         /*ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM tabla_idiomas");
         while (miResultSet.next()) {
             System.out.println(miResultSet.getString("id_idioma") + " - " + miResultSet.getString("nombre_idioma"));
