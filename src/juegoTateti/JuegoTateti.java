@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti?serverTimezone=UTC";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "BasePack8";
+    public static final String PASSWORD_DB = "6277Horde";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -44,7 +44,6 @@ public class JuegoTateti {
                         jugar(miConexion);
                         break;
                     case 3:
-                    	//modificar esta función
                         mostrarPartidas(miConexion);
                         break;
                     case 4:
@@ -68,25 +67,34 @@ public class JuegoTateti {
     
     private static void mostrarPartidas(Connection miConexion) throws SQLException {
     	try {
-    		ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
-    		resultSetMensajes.absolute(26);
-    		System.out.println();
-    		System.out.println(resultSetMensajes.getString("mensaje"));
-
-
-    		System.out.println();
-
-    		ResultSet miResultSet = miConexion.createStatement()
-                .executeQuery("SELECT * FROM info_partidas");
-
-    		while (miResultSet.next()) {
-    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
-                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
-                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
-
+    		System.out.println(" ");
+    		System.out.println("1 - Ver todas las partidas");
+    		System.out.println("2 - Ver un número específico de partidas");
+    		int opcion = lector.nextInt();
+    		if (opcion == 1) {
+	    		ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas");
+	
+	    		while (miResultSet.next()) {
+	    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
+	                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
+	                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+	    		}
+    		} else if (opcion == 2) {
+    			System.out.println("Ingrese el número máximo de resultados:");
+    			int cantidad = lector.nextInt();
+    			
+    			ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas ORDER BY id_partida LIMIT " + cantidad);
+    			while (miResultSet.next()) {
+	    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
+	                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
+	                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+    			}
+    		} else {
+    			System.out.println("Opción incorrecta");
     		}
+    		
     	} catch (Exception e) {
-    	        	System.out.println("no hay jugadores cargados");
+    	        	System.out.println("No hay partidas cargadas");
     	}
     }
 
@@ -100,7 +108,7 @@ public class JuegoTateti {
     	ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
     	resultSetMensajes.absolute(25);
         int opcionElegida = lector.nextInt();
-        while (opcionElegida < 1 || opcionElegida > 5) {
+        while (opcionElegida < 1 || opcionElegida > 6) {
         	System.out.println(resultSetMensajes.getString("mensaje"));
 			mostrarMenuPrincipal(miConexion);
             opcionElegida = lector.nextInt();
@@ -153,7 +161,7 @@ public class JuegoTateti {
 
     		}
     	} catch (Exception e) {
-    	        	System.out.println("no se encuentra el jugador");
+    	        	System.out.println("No se encuentra el jugador");
     	}
     }
 
