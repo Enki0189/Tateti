@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti?serverTimezone=UTC";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "010420";
+    public static final String PASSWORD_DB = "*****";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -130,6 +130,7 @@ public class JuegoTateti {
         System.out.println("4 - " + generarMensajeString(codigoLenguajeSeleccionado, miConexion, 16));
         System.out.println("5 - " + generarMensajeString(codigoLenguajeSeleccionado, miConexion, 33));
         System.out.println("6 - " + generarMensajeString(codigoLenguajeSeleccionado, miConexion, 17));
+        
         System.out.println();
     }
 
@@ -195,7 +196,7 @@ public class JuegoTateti {
         	resultSetMensajes.absolute(i);
         	System.out.println((i-18)+ " - " + resultSetMensajes.getString("mensaje"));
         }
-        //lo modifiquï¿½ para que diga los idiomas en todos los idiomas
+        //lo modifiqué para que diga los idiomas en todos los idiomas
         /*ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM tabla_idiomas");
         while (miResultSet.next()) {
             System.out.println(miResultSet.getString("id_idioma") + " - " + miResultSet.getString("nombre_idioma"));
@@ -211,27 +212,7 @@ public class JuegoTateti {
         System.out.println(generarMensajeString(codigoLenguajeSeleccionado, miConexion, 18));
     }
 
-    //borrar toda esta funciï¿½n, creo
-    private static void agregarMensajeNuevo(Connection miConexion) throws SQLException {
-        System.out.println();
-        System.out.print("Ingrese codigo del mensaje: ");
-        int codigoDelMensaje = lector.nextInt();
-        System.out.print("Ingrese codigo de idioma del mensaje: ");
-        int codigoIdioma = lector.nextInt();
-        System.out.print("Ingrese mensaje: ");
-        lector.nextLine();
-        String mensaje = lector.nextLine();
-
-        miConexion.createStatement().executeUpdate(
-                String.format("INSERT INTO mensajes values (%d, %d,'%s')", codigoDelMensaje, codigoIdioma, mensaje));
-
-        System.out.println();
-        System.out.print("Mensaje agregado exitosamente!");
-    }
-
     private static void jugar(Connection miConexion) throws SQLException {
-    	ResultSet resultSetMensajes = generarMensajes(codigoLenguajeSeleccionado, miConexion);
-    	//resultSetMensajes.absolute(2);
     	System.out.println(generarMensajeString(codigoLenguajeSeleccionado, miConexion, 2));
         lector.nextLine(); // Por alguna razon el siguiente nextLine el programa lo ignora y tuve que
                            // ponerlo 2 veces
