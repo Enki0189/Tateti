@@ -39,7 +39,7 @@ public class JugadorPersona extends Jugador {
             while (posicionJugada == false);
             System.out.println();
         } catch (Exception e) {
-            System.out.println("jugada erronea"); //no aparece el mensaje en consola
+        	System.out.println(JuegoTateti.generarMensajeString(codigoLenguajeSeleccionado, miConexion, 50));
         }
     }
 }
