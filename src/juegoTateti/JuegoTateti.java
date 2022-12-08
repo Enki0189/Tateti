@@ -13,7 +13,7 @@ public class JuegoTateti {
     // Datos conexion base de datos
     public static final String URL_DB = "jdbc:mysql://localhost:3306/tateti?serverTimezone=UTC";
     public static final String USUARIO_DB = "root";
-    public static final String PASSWORD_DB = "*****";
+    public static final String PASSWORD_DB = "6277Horde";
 
     private static final int CODIGO_IDIOMA_ESP = 1;    
 
@@ -71,24 +71,46 @@ public class JuegoTateti {
     		System.out.println("1 - " + generarMensajeString(codigoLenguajeSeleccionado, miConexion, 34));
     		System.out.println("2 - " + generarMensajeString(codigoLenguajeSeleccionado, miConexion, 35));
     		int opcion = lector.nextInt();
+    		String formatoAlineado = "| %4s | %14s | %16s| %16s| %8s| %15s| %n";
     		if (opcion == 1) {
 	    		ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas");
-	
+	    		System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
+        		System.out.format("|  ID  | Nombre jugador |   Inicio partida   |     Fin partida    | Ganador | Idioma elegido |%n");
+        		System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
 	    		while (miResultSet.next()) {
-	    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
-	                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
-	                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+	    			String id = miResultSet.getString("id_partida");
+    				String nombre_jugador = miResultSet.getString("nombre_jugador");
+    				String inicio_partida = miResultSet.getString("inicio_partida");
+    				String fin_partida = miResultSet.getString("fin_partida");
+    				String ganador = miResultSet.getString("ganador");
+    				String idioma = miResultSet.getString("idioma_elegido");
+	    			System.out.format(formatoAlineado, id, nombre_jugador, inicio_partida, fin_partida, ganador,idioma);
 	    		}
+	    		System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
     		} else if (opcion == 2) {
     			System.out.println(generarMensajeString(codigoLenguajeSeleccionado, miConexion, 39));
     			int cantidad = lector.nextInt();
-    			
-    			ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas ORDER BY id_partida LIMIT " + cantidad);
+    			System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
+        		System.out.format("|  ID  | Nombre jugador |   Inicio partida   |     Fin partida    | Ganador | Idioma elegido |%n");
+        		System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
+    			ResultSet miResultSet = miConexion.createStatement().executeQuery("SELECT * FROM info_partidas ORDER BY id_partida DESC LIMIT " + cantidad);
     			while (miResultSet.next()) {
-	    			System.out.println(miResultSet.getString("id_partida") + " " + miResultSet.getString("nombre_jugador") + " "
-	                    + miResultSet.getString("inicio_partida") + " " + miResultSet.getString("fin_partida") + " "
-	                    + miResultSet.getString("ganador") + " " + miResultSet.getString("idioma_elegido"));
+    				String id = miResultSet.getString("id_partida");
+    				String nombre_jugador = miResultSet.getString("nombre_jugador");
+    				String inicio_partida = miResultSet.getString("inicio_partida");
+    				String fin_partida = miResultSet.getString("fin_partida");
+    				String ganador = miResultSet.getString("ganador");
+    				if (ganador.equals("0")) {
+    					ganador = "Máquina";
+    				} else if (ganador.equals("1")) {
+    					ganador = nombre_jugador;
+    				} else {
+    					ganador = "Empate";
+    				}
+    				String idioma = miResultSet.getString("idioma_elegido");
+	    			System.out.format(formatoAlineado, id, nombre_jugador, inicio_partida, fin_partida, ganador,idioma);
     			}
+    			System.out.format("+------+----------------+--------------------+--------------------+---------+----------------+%n");
     		} else {
     			System.out.println(generarMensajeString(codigoLenguajeSeleccionado, miConexion, 40));
     		}
